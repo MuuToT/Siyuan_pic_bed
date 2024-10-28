@@ -76,8 +76,8 @@ class SiyuanAction(metaclass=SingletonMeta):
         return resource_dict
 
     @classmethod
-    async def MultiReplaceDocIcon(cls, old_icon, new_icon, toast=True):
-        resource_list = await ISiyuan.GetDocByIcon(old_icon)
+    async def MultiReplaceDocIcon(cls, old_icon, new_icon, hpath="%%", toast=True):
+        resource_list = await ISiyuan.GetDocByIcon(old_icon, hpath)
         if not resource_list:
             toast and await APISiyuan.async_push_msg(SiyuanMessage.替换图标_无更改.format(icon=old_icon))
             return

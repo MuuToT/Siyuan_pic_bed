@@ -41,6 +41,7 @@ async def siyuan_blocks(request: SiyuanBlocksModel):
         await SiyuanAction.upload_block_resource(request.notebook_id, request.block_id, endpoint=request.endpoint)
         return APIResponse(data={"result": True, "message": define.IMsg.OK})
 
+
 @router.post("/database")
 async def siyuan_database(request: SiyuanDatabaseModel):
     if request.method == define.NotebookMethod.上传指定数据库中的所有资源文件:
@@ -51,5 +52,5 @@ async def siyuan_database(request: SiyuanDatabaseModel):
 
 @router.post("/icon")
 async def siyuan_icon(request: SiyuanIconModel):
-    await SiyuanAction.MultiReplaceDocIcon(request.old_icon, request.new_icon, toast=request.toast)
+    await SiyuanAction.MultiReplaceDocIcon(request.old_icon, request.new_icon, hpath=request.hpath, toast=request.toast)
     return APIResponse(data={"result": True, "message": define.IMsg.OK})

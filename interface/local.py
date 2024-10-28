@@ -119,10 +119,11 @@ class ISiyuan(IBase):
 
     # region Icon
     @classmethod
-    async def GetDocByIcon(cls, icon, step=200):
+    async def GetDocByIcon(cls, icon, hpath="%%", step=200):
         where = SQLWhere.sep_and.join([
             SQLWhere.type_in_f.format(types="'d'"),
             SQLWhere.ial_like.format(like=rf"%icon=\"{icon}\"%"),
+            SQLWhere.hpath_like.format(like=hpath)
         ])
         total_amount = (await APISiyuan.async_sql_query(f"select count(*) as total from {SQLWhere.blocks_b} where {where}"))['data'][0]['total']
         resource_list = []

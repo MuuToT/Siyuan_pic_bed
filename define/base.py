@@ -27,3 +27,4 @@ class SQLWhere:
     root_id = "b.root_id='{root_id}'"
     _id = "b.id='{id}'"
     ial_like = "b.ial like '{like}'"
+    hpath_like = "b.hpath like '{like}'"

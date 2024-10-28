@@ -35,6 +35,7 @@ class SiyuanBlocksModel(SiyuanBaseModel):
 class SiyuanIconModel(SiyuanBaseModel):
     old_icon: str = ""
     new_icon: str = ""
+    hpath: str = "%%"
 
 
 class Cloud123Model(BaseModel):
