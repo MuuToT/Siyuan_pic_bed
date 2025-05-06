@@ -13,8 +13,8 @@ class IBase(metaclass=SingletonMeta):
     config = None
 
     @classmethod
-    def is_same_as_record(cls, resource: SiyuanBlockResource, record_path):
-        if posixpath.join(resource.file_pre_dir, resource.filename) == record_path:
+    def is_same_as_record(cls, resource: SiyuanBlockResource, pre_dir, record_path):
+        if posixpath.join(pre_dir, resource.filename) == record_path:
             cloud_log.debug(f"IBase.is_same_as_record | filename:{resource.filename}")
             return True
         return False
@@ -42,4 +42,8 @@ class IBase(metaclass=SingletonMeta):
     @classmethod
     async def receive_database(cls, urls_info: dict[int, DataBaseResourceInfo], log_level=logging.DEBUG):
         """数据库资源"""
+        raise NotImplementedError()
+
+    @classmethod
+    def get_all_file(cls):
         raise NotImplementedError()

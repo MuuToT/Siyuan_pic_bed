@@ -10,7 +10,7 @@ import setting
 from api.siyuan import APISiyuan
 from base.interface import IBase
 from config import Cloud123Config, SiyuanConfig
-from define import SiyuanBlockType, DataBaseColType
+from define import SiyuanBlockType, DataBaseType
 from define.base import SQLWhere
 from entity.siyuan import SiyuanBlockResource, Record, SiyuanDataBaseResource
 from log import get_logger
@@ -29,7 +29,7 @@ class ISiyuan(IBase):
     async def async_quick_get_resource(cls, step=200, keep_ori=False, where=None) -> dict[int, SiyuanBlockResource]:
         """快速获取带有资源的块数据"""
         if not where:
-            where = " and ".join([f"markdown like %{Cloud123Config().remote_path}%", SQLWhere.type_in])
+            where = " and ".join([f"markdown like %{Cloud123Config().save_pre_path}%", SQLWhere.type_in])
         total_amount = (await APISiyuan.async_sql_query(f"select count(*) as total from {SQLWhere.blocks_b} where {where}"))['data'][0]['total']
         resource_dict = {}
 
@@ -60,21 +60,18 @@ class ISiyuan(IBase):
             database_json_data = json.load(fp)
         resources = []
         for single_col in database_json_data["keyValues"]:
-            if single_col["key"]["type"] != DataBaseColType.asset:
+            if single_col["key"]["type"] != DataBaseType.asset:
                 continue
-            for value in single_col["values"]:
+            for row in single_col["values"]:
+                if row["type"] != DataBaseType.asset:
+                    continue
+                if DataBaseType.asset not in row:
+                    interface_log.warning(f"ISiyuan.async_get_database_resource | 未找到资源key | key:{DataBaseType.asset} row_resource:{row}")
+                    continue
                 resource = SiyuanDataBaseResource()
-                await resource.parse(value) and resources.append(resource)
+                await resource.parse(row) and resources.append(resource)
 
         return resources, database_json_data, av_file_path
-
-    @classmethod
-    def is_same_as_record(cls, filename, record_path):
-        """校验是否已经是siyuan:assets"""
-        if posixpath.join(SiyuanConfig.assets_sub_dir, filename) == record_path:
-            interface_log.debug(f"ICloud123.is_same_as_record | filename:{filename}")
-            return True
-        return False
 
     @classmethod
     async def receive(cls, resource: SiyuanBlockResource, log_level=logging.DEBUG):
@@ -122,10 +119,11 @@ class ISiyuan(IBase):
 
     # region Icon
     @classmethod
-    async def GetDocByIcon(cls, icon, step=200):
+    async def GetDocByIcon(cls, icon, hpath="%%", step=200):
         where = SQLWhere.sep_and.join([
             SQLWhere.type_in_f.format(types="'d'"),
             SQLWhere.ial_like.format(like=rf"%icon=\"{icon}\"%"),
+            SQLWhere.hpath_like.format(like=hpath)
         ])
         total_amount = (await APISiyuan.async_sql_query(f"select count(*) as total from {SQLWhere.blocks_b} where {where}"))['data'][0]['total']
         resource_list = []

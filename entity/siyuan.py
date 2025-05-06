@@ -8,6 +8,7 @@ from typing import Optional
 
 import setting
 from config import SiyuanConfig
+from define import DataBaseType
 from define.base import ResourceType
 from log import get_logger
 from model.siyuan import ResourceCache, DataBaseResourceInfo
@@ -27,7 +28,7 @@ class SiyuanBlockResource:
     def __init__(self, block):
         self.id = block["id"]
         self.markdown = block["markdown"]
-        self.prefix = block["title"]
+        self.prefix = string.replace_special_characters(block["title"])
         self.typ: Optional[ResourceType] = None
         # ---------- 资源解析 ----------
         self.resource = ""  # 资源的原始文本  ![](http://xxx.xxx.com/siyuan/Nginx%20image_20220512101137719.png)
@@ -126,6 +127,8 @@ class SiyuanDataBaseResource:
         self.ref = single_col["mAsset"]
         filenames = []
         for index, resource in enumerate(self.ref):
+            if resource["type"] != DataBaseType.image:
+                continue
             url = resource["content"]
             typ = file.get_file_typ(url, url)
             if not typ:
@@ -133,7 +136,7 @@ class SiyuanDataBaseResource:
             _, file_name, extension = file.get_file_name_and_extension(url)
             filename = f"{file_name}{extension}"
             if not (file_info := await file.get_file_info_by_type(url, typ)):
-                return False
+                continue
             url_record = self.urls.setdefault(index, {
                 "filename": filename,
                 "path": file.get_file_path_by_type(url, typ),

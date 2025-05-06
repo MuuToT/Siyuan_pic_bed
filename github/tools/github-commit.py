@@ -10,11 +10,11 @@ class GithubCommitControl:
     repo_name = 'Siyuan_pic_bed'  # 替换为实际的仓库名
     branch_name = 'dev'  # 指定要获取提交记录的分支名
     token = github_token  # 替换为你的GitHub token
-    stop_hash = 'ecb1b6c241d7955e831e214ef406e8fc845a5e78'
+    stop_hash = 'c1af3001ea240f6f3af6902aa22ba805345b601f'
 
     sort_key = ["fix", "feat", "perf", "optimize", "refactor", "style", "del", "log"]
 
-    ignore_key = ["changelog", "release", "build", "", "ignore", "readme", "config"]
+    ignore_key = ["changelog", "release", "build", "", "ignore", "readme", "config", "typo"]
 
     def __init__(self):
         self.commits = []

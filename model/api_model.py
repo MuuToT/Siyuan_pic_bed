@@ -10,24 +10,32 @@ from define.base import EndPoint
 class SiyuanBaseModel(BaseModel):
     token: str
     toast: bool = True
-    end_point: EndPoint = EndPoint.NONE
+    endpoint: EndPoint = EndPoint.NONE
 
 
 class NoteBookModel(SiyuanBaseModel):
     method: str = ""
     notebook_id: str = ""
-    end_point: EndPoint = EndPoint.CLOUD_123
+    endpoint: EndPoint = EndPoint.CLOUD_123
 
 
 class SiyuanDatabaseModel(SiyuanBaseModel):
     method: str = ""
     database_id: str = ""
-    end_point: EndPoint = EndPoint.CLOUD_123
+    endpoint: EndPoint = EndPoint.CLOUD_123
+
+
+class SiyuanBlocksModel(SiyuanBaseModel):
+    method: str = ""
+    notebook_id: str = ""
+    block_id: str = ""
+    endpoint: EndPoint = EndPoint.CLOUD_123
 
 
 class SiyuanIconModel(SiyuanBaseModel):
     old_icon: str = ""
     new_icon: str = ""
+    hpath: str = "%%"
 
 
 class Cloud123Model(BaseModel):
@@ -61,8 +69,11 @@ class EmptyModel(BaseModel):
     pass
 
 
-class RemoteModel(BaseModel):
+class RemoteBaseModel(BaseModel):
     remote: EndPoint
+
+
+class RemoteModel(RemoteBaseModel):
     renew_siyuan: bool = False
     renew_remote: bool = False
     show: bool = False

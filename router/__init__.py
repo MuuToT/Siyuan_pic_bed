@@ -13,12 +13,16 @@ async def validate_siyuan_init(request: SiyuanBaseModel):
         raise HTTPException(status_code=400, detail=define.ConfigMsg.TOKEN_NOT_EXIST)
     if not cfg.init:
         raise HTTPException(status_code=400, detail=define.ConfigMsg.NOT_INIT.format(name="思源"))
-    if request.end_point == EndPoint.CLOUD_123:
+    if request.endpoint == EndPoint.CLOUD_123:
         if not ConfigManager().cloud_123.init:
             raise HTTPException(status_code=400, detail=define.ConfigMsg.NOT_INIT.format(name="123云盘"))
-    elif request.end_point == EndPoint.PICGO:
+    elif request.endpoint == EndPoint.PICGO:
         if not ConfigManager().picgo.init:
             raise HTTPException(status_code=400, detail=define.ConfigMsg.NOT_INIT.format(name="PicGo"))
+    elif request.endpoint == EndPoint.SIYUAN:
+        pass
+    elif request.endpoint == EndPoint.NONE:
+        raise HTTPException(status_code=400, detail=define.ConfigMsg.ILLEGAL_SOURCE)
     ConfigManager().cur_token = request.token
 
 

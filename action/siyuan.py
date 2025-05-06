@@ -31,30 +31,24 @@ class SiyuanAction(metaclass=SingletonMeta):
         return resource_dict
 
     @classmethod
-    async def upload_single_notebook_resource(cls, notebook_id, end_point, toast=True):
+    async def upload_single_notebook_resource(cls, notebook_id, endpoint, toast=True):
         sql_where = SQLWhere.sep_and.join([SQLWhere.root_id.format(root_id=notebook_id), SQLWhere.type_in])
-        resource_dict = await ISiyuan.async_quick_get_resource(where=sql_where)
-        custom_record: CustomRecordT = await SiyuanControl.GetCustomRecord(notebook_id)
-        success_amount = sum(await asyncio.gather(*(
-            SiyuanControl.upload_file(resource, custom_record, end_point_enum=end_point)
-            for resource in resource_dict.values()
-        )))
-        if success_amount:
-            toast and await APISiyuan.async_push_msg(SiyuanMessage.上传成功_汇总.format(amount=success_amount))
-        else:
-            toast and await APISiyuan.async_push_msg(SiyuanMessage.上传成功_无更改)
-        await SiyuanControl.SetCustomRecord(notebook_id, custom_record)
-        return resource_dict
+        return await cls._Upload(notebook_id, sql_where, endpoint, toast)
 
     @classmethod
-    async def upload_database_resource(cls, database_id, end_point, toast=True):
+    async def upload_block_resource(cls, notebook_id, block_id, endpoint, toast=True):
+        sql_where = SQLWhere._id.format(id=block_id)
+        return await cls._Upload(notebook_id, sql_where, endpoint, toast)
+
+    @classmethod
+    async def upload_database_resource(cls, database_id, endpoint, toast=True):
         sql_where = SQLWhere._id.format(id=database_id)
         resources, database_json_data, av_file_path = await ISiyuan.async_get_database_resource(where=sql_where)
         if not resources:
             return
         custom_record = await SiyuanControl.GetCustomRecord(database_id, [])
         success_amount = sum(await asyncio.gather(*(
-            SiyuanControl.upload_database_resource(resource, custom_record, end_point_enum=end_point)
+            SiyuanControl.upload_database_resource(resource, custom_record, endpoint_enum=endpoint)
             for resource in resources
         )))
         if success_amount:
@@ -67,8 +61,23 @@ class SiyuanAction(metaclass=SingletonMeta):
         return resources
 
     @classmethod
-    async def MultiReplaceDocIcon(cls, old_icon, new_icon, toast=True):
-        resource_list = await ISiyuan.GetDocByIcon(old_icon)
+    async def _Upload(cls, notebook_id, sql_where, endpoint, toast=True):
+        resource_dict = await ISiyuan.async_quick_get_resource(where=sql_where)
+        custom_record: CustomRecordT = await SiyuanControl.GetCustomRecord(notebook_id)
+        success_amount = sum(await asyncio.gather(*(
+            SiyuanControl.upload_file(resource, custom_record, endpoint_enum=endpoint)
+            for resource in resource_dict.values()
+        )))
+        if success_amount:
+            toast and await APISiyuan.async_push_msg(SiyuanMessage.上传成功_汇总.format(amount=success_amount))
+        else:
+            toast and await APISiyuan.async_push_msg(SiyuanMessage.上传成功_无更改)
+        await SiyuanControl.SetCustomRecord(notebook_id, custom_record)
+        return resource_dict
+
+    @classmethod
+    async def MultiReplaceDocIcon(cls, old_icon, new_icon, hpath="%%", toast=True):
+        resource_list = await ISiyuan.GetDocByIcon(old_icon, hpath)
         if not resource_list:
             toast and await APISiyuan.async_push_msg(SiyuanMessage.替换图标_无更改.format(icon=old_icon))
             return
