@@ -1,3 +1,34 @@
+## v2.4
+
+#### fix
+
+- [unable to upload after saving locally](https://github.com/MuuToT/Siyuan_pic_bed/commit/5c6c4bac4d3e8f4c9a14e60e746371d347e0acd8)
+- [method saveOne router verification failed](https://github.com/MuuToT/Siyuan_pic_bed/commit/3d8e76a0dcc27fdb3c23b5187b71e7a9c8f21e96)
+- [names](https://github.com/MuuToT/Siyuan_pic_bed/commit/f9490c497e3e107a62d9b0f69b4823e2c5967ca0)
+- [compatibility with missing keys](https://github.com/MuuToT/Siyuan_pic_bed/commit/e7746ff347f146c4cc9459b1b005598593933f0f)
+
+#### feat
+
+- [Introduction of UV environmental management](https://github.com/MuuToT/Siyuan_pic_bed/commit/6c5266e4e47f052db09d62e773c6c92b73e5b11d)
+- [Batch replacement of icons supports limiting regions based on hPath](https://github.com/MuuToT/Siyuan_pic_bed/commit/fdabea71b0c59e2282405ae79f019f9d7e281cb6)
+- [add timeout prompt for obtaining resource files](https://github.com/MuuToT/Siyuan_pic_bed/commit/0b2a845eb0925a34d6d39ecfd79747b6251b20ec)
+- [default fault tolerance](https://github.com/MuuToT/Siyuan_pic_bed/commit/2561a79480b0c6394de82cbc0c525c87a4cf3562)
+- [Support selecting a single block to upload resources](https://github.com/MuuToT/Siyuan_pic_bed/commit/3baf0364cb823196f6545b844a6ba521b705f42b)
+
+#### optimize
+
+- [adjust log output](https://github.com/MuuToT/Siyuan_pic_bed/commit/622e35f4ec7441b8afe286b2f1e9b64ec6d21081)
+- [log formatter](https://github.com/MuuToT/Siyuan_pic_bed/commit/a96d42cdc9ad5b6386ce3bc8d02867b2b9a0a4df)
+
+#### refactor
+
+- [if else -> match case](https://github.com/MuuToT/Siyuan_pic_bed/commit/6e285eef432f6591b05c480af5de71c5b901626a)
+- [reload interface](https://github.com/MuuToT/Siyuan_pic_bed/commit/81348ff6fdbeff0fd713880e72b6743a443f4754)
+
+#### del
+
+- [Undeleted subclass methods](https://github.com/MuuToT/Siyuan_pic_bed/commit/340b1b0be212b26c7dd3eaec035ac1a8f2647b72)
+
 ## v2.3
 
 #### fix
