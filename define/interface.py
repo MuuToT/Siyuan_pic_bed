@@ -21,5 +21,6 @@ class NotebookMethod:
     加载文件信息 = "reloadInfo"
     上传指定数据库中的所有资源文件 = "uploadDatabaseResource"
 
+
 class BlockMethod:
     上传指定块资源 = "uploadBlockOne"
