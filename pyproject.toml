@@ -1,0 +1,43 @@
+[project]
+name = "siyuan-pic-bed-ctl"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "aiofiles",
+    "aiohappyeyeballs",
+    "aiohttp",
+    "aiosignal",
+    "altgraph",
+    "annotated-types",
+    "anyio",
+    "attrs",
+    "certifi",
+    "charset-normalizer",
+    "click",
+    "colorama",
+    "fastapi",
+    "frozenlist",
+    "h11",
+    "idna",
+    "multidict",
+    "packaging",
+    "pefile",
+    "pydantic",
+    "pydantic_core",
+    "pyinstaller",
+    "pyinstaller-hooks-contrib",
+    "python-dotenv",
+    "pywin32-ctypes",
+    "PyYAML",
+    "requests",
+    "setuptools",
+    "sniffio",
+    "starlette",
+    "typing_extensions",
+    "urllib3",
+    "uvicorn",
+    "watchfiles",
+    "websockets",
+    "yarl",
+]
