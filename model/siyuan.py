@@ -1,4 +1,5 @@
 import typing
+from typing import NotRequired
 
 from define.base import ResourceType
 
@@ -14,6 +15,6 @@ class DataBaseResourceInfo(typing.TypedDict):
     filename: str
     path: str
     type: typing.Optional[ResourceType]
-    file: bytes
-    md5: str
-    file_size: int
+    file: NotRequired[bytes]
+    md5: NotRequired[str]
+    file_size: NotRequired[int]
