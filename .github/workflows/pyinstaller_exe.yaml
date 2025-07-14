@@ -26,7 +26,7 @@ jobs:
         uv sync  # 确保你有一个 requirements.txt 文件
     - name: Build PyInstaller package
       run: |
-        pyinstaller --onefile --name=py_server main.py  # 替换为你的主脚本文件名或使用 --onefile 或其他 PyInstaller 选项
+        pyinstaller --onefile --name=py_server /home/runner/work/Siyuan_pic_bed/Siyuan_pic_bed/main.py  # 替换为你的主脚本文件名或使用 --onefile 或其他 PyInstaller 选项
         # 例如，如果你想要一个单文件输出，使用：pyinstaller --onefile your_script.py
     - name: Upload artifact
       uses: actions/upload-artifact@v2
